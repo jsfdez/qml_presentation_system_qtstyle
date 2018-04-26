@@ -7,8 +7,8 @@ Presentation {
     width: 1091
     height: 770
 
-    property string title: "<no title>"
-    property string url: "https://github.com/jsfdez/qpresentation/tree/<branch>"
+    property string title: "Creating a Qt Quick application"
+    property string url: "https://github.com/jsfdez/qpresentation/tree/ubuconeu18_qtquick"
     QtStyle { id: style }
     fontFamily: style.fontFamily
     codeFontFamily: style.codeFontFamily
@@ -64,6 +64,10 @@ Presentation {
         title: "Agenda"
         content: [
             " Intro",
+            " What's Qt?",
+            " QML",
+            " Qt Quick",
+            " Live coding",
             " Questions?",
         ]
     }
@@ -77,6 +81,46 @@ Presentation {
             "  Qt Network Auth (since 5.8)",
             "  Qt WebGL Streaming (since 5.10)",
         ]
+    }
+
+    Slide {
+        title: "What's Qt?"
+        content: [
+            "/kjuːt/",
+            "C++ framework",
+            "Multiporpuse framework",
+            "Different modules (core, gui, widgets, quick, network, 3D, multimedia, ...)"
+        ]
+    }
+
+    Slide {
+        title: "QML"
+        content: [
+            "Declarative language",
+            "Bindings, allowing relations between objects",
+            "Embed Javascript code",
+            "Debugging integrated in Qt Creator",
+            "It can be compiled to bytecode to improve application loading times"
+        ]
+    }
+
+    Slide {
+        title: "Qt Quick"
+        content: [
+            " Fast and easy way to create applications",
+            " Responsive applications, suitable for mobile devices",
+            " Anchor based",
+            " Easy to use",
+            " Requires a QGuiApplication",
+            " You can build custom components from other components, from QML",
+            " You can build custom components from scratch, from C++",
+            " Hardware accelerated",
+            " Qt Quick Designer in QtCreator",
+        ]
+    }
+
+    Slide {
+        centeredText: "Live coding"
     }
 
     Slide {
