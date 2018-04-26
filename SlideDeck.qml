@@ -1,7 +1,6 @@
 import QtQuick 2.8
 import QtQuick.Shapes 1.0
 import Qt.labs.presentation 1.0
-import QtWebView 1.1
 
 Presentation {
     id: presentation
