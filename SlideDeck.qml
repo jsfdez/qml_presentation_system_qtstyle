@@ -35,6 +35,8 @@ Presentation {
     Slide {
         id: introSlide
         Text {
+            anchors.fill: parent
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: presentation.title
             font.family: style.fontFamily
             font.pixelSize: introSlide.baseFontSize * 2
