@@ -7,8 +7,8 @@ Presentation {
     width: 1091
     height: 770
 
-    property string title: "<no title>"
-    property string url: "https://github.com/jsfdez/qpresentation/tree/<branch>"
+    property string title: "Connecting a Qt application with the Cloud"
+    property string url: "https://github.com/jsfdez/qpresentation/tree/ubuconeu18_network"
     QtStyle { id: style }
     fontFamily: style.fontFamily
     codeFontFamily: style.codeFontFamily
@@ -66,6 +66,9 @@ Presentation {
         title: "Agenda"
         content: [
             " Intro",
+            " Qt Network",
+            " Qt Network Auth",
+            " Live coding",
             " Questions?",
         ]
     }
@@ -79,6 +82,30 @@ Presentation {
             "  Qt Network Auth (since 5.8)",
             "  Qt WebGL Streaming (since 5.10)",
         ]
+    }
+
+    Slide {
+        title: "Qt Network"
+        content: [
+            "QTcpSocket",
+            "QTcpServer",
+            "QUdpServer",
+            "QNetworkAccessManager",
+        ]
+    }
+
+    Slide {
+        title: "Qt Network Auth"
+        content: [
+            "Handles:",
+            " OAuth 1",
+            " OAuth 2",
+            " More standards in the future",
+        ]
+    }
+
+    Slide {
+        centeredText: "Live coding"
     }
 
     Slide {
