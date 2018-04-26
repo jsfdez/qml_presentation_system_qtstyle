@@ -1,15 +1,14 @@
 import QtQuick 2.8
 import QtQuick.Shapes 1.0
 import Qt.labs.presentation 1.0
-import QtWebView 1.1
 
 Presentation {
     id: presentation
     width: 1091
     height: 770
 
-    property string title: "<no title>"
-    property string url: "https://github.com/jsfdez/qpresentation/tree/<branch>"
+    property string title: "Creating a Qt Widgets application"
+    property string url: "https://github.com/jsfdez/qpresentation/tree/ubuconeu18_qtwidgets"
     QtStyle { id: style }
     fontFamily: style.fontFamily
     codeFontFamily: style.codeFontFamily
@@ -65,6 +64,9 @@ Presentation {
         title: "Agenda"
         content: [
             " Intro",
+            " What's Qt?",
+            " Qt Widgets",
+            " Live coding",
             " Questions?",
         ]
     }
@@ -78,6 +80,38 @@ Presentation {
             "  Qt Network Auth (since 5.8)",
             "  Qt WebGL Streaming (since 5.10)",
         ]
+    }
+
+    Slide {
+        title: "What's Qt?"
+        content: [
+            "/kjuːt/",
+            "C++ framework",
+            "Multiporpuse framework",
+            "Different modules (core, gui, widgets, quick, network, 3D, multimedia, ...)",
+        ]
+    }
+
+    Slide {
+        title: "Qt Widgets"
+        content: [
+            "  Components to develop UI applications",
+            "  Widgets should inherit from QWidget",
+            "  Layout based",
+            "  Suitable for desktop applications",
+            "  Easy to use",
+            "  Requires a QApplication",
+            "  Custom components are easy to develop",
+            "  QPainter is used to paint the widgets",
+            "  Raster",
+            "  Qt Designer and QtCreator",
+            "  UIC: .ui parser and code generator",
+            "  Considered stable",
+        ]
+    }
+
+    Slide {
+        centeredText: "Live coding"
     }
 
     Slide {
