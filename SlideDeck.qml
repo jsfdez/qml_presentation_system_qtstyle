@@ -4,8 +4,6 @@ import Qt.labs.presentation 1.0
 
 Presentation {
     id: presentation
-    width: 1091
-    height: 770
 
     property string title: "<no title>"
     property string url: "https://github.com/jsfdez/qpresentation/tree/<branch>"
