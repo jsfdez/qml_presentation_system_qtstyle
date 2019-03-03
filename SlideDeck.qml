@@ -28,7 +28,7 @@ Presentation {
     }
 
     Clock {
-        anchors {  left: null; right: introSlide.right }
+        anchors {  left: undefined; right: introSlide.right }
         color: style.gray
     }
 
