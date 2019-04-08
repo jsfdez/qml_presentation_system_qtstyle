@@ -5,11 +5,25 @@ import Qt.labs.presentation 1.0
 Presentation {
     id: presentation
 
-    property string title: "<no title>"
-    property string url: "https://github.com/jsfdez/qpresentation/tree/<branch>"
+    property string title: "Qt Http Server"
+    property string url: "https://github.com/jsfdez/qpresentation/tree/pf_qhttpserver"
     QtStyle { id: style }
     fontFamily: style.fontFamily
     codeFontFamily: style.codeFontFamily
+
+    function makeRequest(url, object, prop) {
+        var doc = new XMLHttpRequest();
+        doc.onreadystatechange = function() {
+            if (doc.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
+            } else if (doc.readyState === XMLHttpRequest.DONE) {
+                object[prop] = doc.responseText
+            }
+        }
+
+        doc.open("GET", url);
+        doc.send();
+        return doc;
+    }
 
     SlideCounter {
         visible: presentation.currentSlide != 0
@@ -21,7 +35,7 @@ Presentation {
             font.pixelSize: parent.font.pixelSize
             color: style.gray
             anchors { baseline: parent.baseline; horizontalCenter: parent.horizontalCenter }
-            text: new Date().toDateString() + " - Jesús Fernández"
+            text: new Date().toDateString() + " - C&N Team"
         }
     }
 
@@ -41,7 +55,7 @@ Presentation {
         }
 
         Text {
-            text: "Jesús Fernández"
+            text: "C&N (Oslo)"
             anchors.verticalCenter: parent.verticalCenter
             font.family: style.fontFamily
             font.pixelSize: introSlide.baseFontSize
@@ -64,28 +78,80 @@ Presentation {
         title: "Agenda"
         content: [
             " Intro",
+            " QAbstractHttpServer",
+            "  QHttpServerResponder",
+            " QHttpServer",
+            " QML Http Server",
             " Questions?",
         ]
     }
 
     Slide {
-        title: "Intro: Jesús Fernández"
+        title: "Intro"
+        delayPoints: true
         content: [
-            "Senior Software Engineer @ The Qt Company",
-            "@Qt Project:",
-            " Maintainer of:",
-            "  Qt Network Auth (since 5.8)",
-            "  Qt WebGL Streaming (since 5.10)",
+            "Created by the C&N Team in Oslo",
+            "qt-labs/qthttpserver @ Gerrit (WIP)",
+            "Targets:",
+            " Avoid code duplication",
+            " Easy to integrate in Qt applications",
+            " Not intrusive",
+            " Ease creation of REST services",
+            " Explore new APIs",
         ]
+    }
+
+    CustomCodeSlide {
+        title: "QAbstractHttpServer"
+        code: "struct HttpServer : QAbstractHttpServer {
+    bool handleRequest(const QHttpServerRequest &request, QTcpSocket *socket) override {
+        socket->write(...);
+        return true;
+    }
+} server;
+server.bind();"
+    }
+
+    Slide {
+        title: "QHttpServerResponder"
+        centeredText: "It wraps a QAbstractSocket* and creates an interface to make replying " +
+            "HTTP requests easier"
+    }
+
+    Slide {
+        title: "QHttpServer"
+        content: [
+            "Easy to write",
+            "Syntax inspired by Flask",
+            "Extensible API",
+        ]
+    }
+
+    CustomCodeSlide {
+        title: "QHttpServer"
+        Component.onCompleted: makeRequest("https://raw.githubusercontent.com/jsfdez/qpresentation/pf_qhttpserver/simple.cpp",
+                                           this, "code")
+    }
+
+    Slide {
+        title: "QML Http Server"
+        content: [
+            "Creates an HTTP Server from QML",
+            "It can be used for debugging",
+            "Allows authorization flows",
+            "Prototyping",
+        ]
+    }
+
+    CustomCodeSlide {
+        title: "QML Http Server"
+        Component.onCompleted: makeRequest("https://raw.githubusercontent.com/jsfdez/qpresentation/pf_qhttpserver/declarativehttpserver.qml",
+                                           this, "code")
     }
 
     Slide {
         title: "Questions?"
-        content: [
-            "IRC 💬 jefernan @ #qt-labs (freenode)",
-            "Twitter 🐦 @jsfdez",
-            "E-Mail 📬 jesus.fernandez@qt.io",
-        ]
+        centeredText: "Thank you!"
         Text {
             font.family: style.fontFamily
             font.pixelSize: introSlide.baseFontSize
