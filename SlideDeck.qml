@@ -6,10 +6,14 @@ import QtWebEngine 1.8
 Presentation {
     id: presentation
 
-    property string title: "Corrutinas y Qt"
-    property string url: "https://github.com/jsfdez/qpresentation/tree/coroutines_and_qt"
+    property string title: "QCoroutines"
+    property string branch: "coroutines"
+    property string url: "https://github.com/jsfdez/qpresentation/tree/" + branch
+    property string baseUrl: "https://raw.githubusercontent.com/jsfdez/qpresentation/" + branch + "/"
 
-    codeFontFamily: "Source Code Pro"
+    QtStyle { id: style }
+    fontFamily: style.fontFamily
+    codeFontFamily: style.codeFontFamily
 
     function makeRequest(url, object, prop) {
         var doc = new XMLHttpRequest();
@@ -28,17 +32,22 @@ Presentation {
     SlideCounter {
         visible: presentation.currentSlide != 0
         anchors {  left: introSlide.left; right: introSlide.right }
+        color: style.gray
 
         Text {
             font.family: parent.font.family
             font.pixelSize: parent.font.pixelSize
+            color: style.gray
             anchors { baseline: parent.baseline; horizontalCenter: parent.horizontalCenter }
             text: (new Date).getDate() + "/" + ((new Date).getMonth() + 1)  + "/" +
                   (new Date).getFullYear() + " - Jesús Fernández"
         }
     }
 
-    Clock { anchors {  left: undefined; right: introSlide.right } }
+    Clock {
+        anchors {  left: undefined; right: introSlide.right }
+        color: style.gray
+    }
 
     Slide {
         id: introSlide
@@ -46,34 +55,39 @@ Presentation {
             anchors.fill: parent
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: presentation.title
+            font.family: style.fontFamily
             font.pixelSize: introSlide.baseFontSize * 2
         }
 
         Text {
             text: "Jesús Fernández"
             anchors.verticalCenter: parent.verticalCenter
+            font.family: style.fontFamily
             font.pixelSize: introSlide.baseFontSize
         }
 
         Text {
-            property var months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
-                "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+            property var months: ["January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December"]
             property string year: new Date().getFullYear()
             property string month: months[new Date().getMonth()]
             text: month + ", " + year
+            color: style.gray
             anchors.bottom: parent.bottom
+            font.family: style.fontFamily
             font.pixelSize: introSlide.baseFontSize
         }
     }
 
     Slide {
         id: index
-        title: "Índice"
+        title: "Index"
         content: {
             var titles = []
-            for (var i=0; i<presentation.children.length; ++i) {
+            for (var i=0; i < presentation.children.length; ++i) {
                 var r = presentation.children[i];
-                if (r.isSlide && r !== introSlide && r !== index) {
+                if (r.isSlide && r !== introSlide && r !== index
+                        && r.title[r.title.length - 1] !== ')') {
                     titles.push("   " + r.title)
                 }
             }
@@ -82,55 +96,22 @@ Presentation {
     }
 
     Slide {
-        title: "¿Quién soy?"
-        content: [
-            "Jesús Fernández",
-            " IRC 💬 jefernan @ #qt-labs (freenode)",
-            " Twitter 🐦 @jsfdez",
-            " E-Mail 📬 jesus.fernandez@qt.io // jsfdez@gmail.com",
-            "Desarrollador C/C++",
-            "Contribuidor de Qt",
-        ]
-    }
-
-    Slide {
-        title: "¿Qué es Qt?"
-        content: [
-            "Framework C++",
-            "Usado en desarrollo de aplicaciones de escritorio, móviles, automoción, automatización"
-            + " dispositivos médicos, MCUs, ...",
-            "⚠️",
-        ]
-    }
-
-    Slide {
-        title: "¿Qué es C++?"
-        Image {
-            source: "https://www.shankman.com/wp-content/uploads/shankman.comimagesimguploaderimagesare-you-kidding-me-6a0ac179c573171e9b9fa5b7b9bc7c366275b640-380x365.jpg"
-            anchors.centerIn: parent
-        }
-    }
-
-    Slide {
-        title: "¿Qué son las corrutinas?"
+        title: "Coroutines?"
         textFormat: Text.StyledText
         content: [
-            " <i>Una corrutina es una unidad de tratamiento semejante a una subrutina, "
-            + "con la diferencia de que, mientras que la salida de una subrutina pone fin a esta, "
-            + "la salida de una corrutina puede ser el resultado de una suspensión de su "
-            + "tratamiento hasta que se le indique retomar su ejecución (multitarea cooperativa). "
-            +"La suspensión de la corrutina y su reanudación pueden ir acompañadas de una "
-            +"transmisión de datos.</i>",
-            " Dos tipos:",
+            " <i>Coroutines are computer program components that generalize subroutines for " +
+                "non-preemptive multitasking, by allowing execution to be suspended and " +
+                "resumed.</i>",
+            " Types:",
             "  Stackless",
-            "   Sólo guardan el las variables locales y su posición en la ejecución",
+            "   Store local variables and registers",
             "  Stackful",
-            "   Guardan toda la pila",
+            "   Store the full stack",
         ]
     }
 
     Slide {
-        title: "¿Qué lenguajes soportan corrutinas?"
+        title: "Supported languagues"
 
         WebEngineView {
             anchors.fill: parent
@@ -140,16 +121,18 @@ Presentation {
     }
 
     Slide {
-        title: "Casos de uso en corrutinas"
+        title: "Use-cases"
         content: [
-            "Generadores",
-            "Facilitar la creación de código asíncrono",
-            "Multitarea cooperativa",
+            "Generators",
+            "Ease asynchronous code",
+            "Cooperative multitasking",
+            "State-machines",
+            "Event dispatchers",
         ]
     }
 
     Slide {
-        title: "Disponibilidad en C++"
+        title: "Requirements"
         content: [
             "Clang >= 5",
             " -fcoroutines-ts",
@@ -158,59 +141,42 @@ Presentation {
         ]
     }
 
-    Slide {
-        id: coReturnSlide
+    CustomCodeSlide {
         title: "co_return y co_await"
-
-        baseFontSize: fontSize * fontScale * 0.7
-
-        ColumnLayout {
-            anchors.fill: parent
-            Code {
-                property real baseFontSize: coReturnSlide.baseFontSize
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.preferredHeight: parent.height * 2 / 3
-                Component.onCompleted: makeRequest("http://localhost:8080/co_return.cpp", this,
-                                                   "code")
-            }
-            Code {
-                property real baseFontSize: coReturnSlide.baseFontSize
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.preferredHeight: parent.height / 3
-                Component.onCompleted: makeRequest("http://localhost:8080/co_return.txt", this,
-                                                   "code")
-            }
-        }
+        Component.onCompleted: makeRequest(baseUrl + "co_return.cpp", this, "code")
     }
 
-    CodeSlide {
+    CustomCodeSlide {
         title: "co_yield"
-        Component.onCompleted: makeRequest("http://localhost:8080/fibonacci.cpp", this, "code")
+        Component.onCompleted: makeRequest(baseUrl + "fibonacci.cpp", this, "code")
     }
 
-    CodeSlide {
+    CustomCodeSlide {
         title: "struct promise_type"
-        Component.onCompleted: makeRequest("http://localhost:8080/promise_type.h", this, "code")
+        Component.onCompleted: makeRequest(baseUrl + "promise_type.h", this, "code")
     }
 
-    CodeSlide {
-        title: "operator co_await()"
-        Component.onCompleted: makeRequest("http://localhost:8080/operator_coawait.h", this, "code")
+    CustomCodeSlide {
+        title: "operator co_await"
+        Component.onCompleted: makeRequest(baseUrl + "operator_coawait.h", this, "code")
+    }
+
+    CustomCodeSlide {
+        title: "operator co_await (2)"
+        Component.onCompleted: makeRequest(baseUrl + "co_await2.cpp", this, "code")
     }
 
     Slide {
         title: "Demo"
 
         Image {
-            source: "https://ak9.picdn.net/shutterstock/videos/21743569/thumb/1.jpg"
+            source: "https://mentorphiledotcom.files.wordpress.com/2018/09/livedemo-1.png?w=840"
             anchors.centerIn: parent
         }
     }
 
     Slide {
-        title: "Conclusiones"
+        title: "Conclusions"
 
         Image {
             source: "https://openclipart.org/download/238687/Boy-asking-question.svg"
@@ -219,8 +185,8 @@ Presentation {
     }
 
     Slide {
-        title: "¿Preguntas?"
-        centeredText: "¡Muchas gracias!"
+        title: "Questions?"
+        centeredText: "Thank you!"
 
         Timer {
             id: thanksTimer
@@ -237,6 +203,7 @@ Presentation {
         }
 
         Text {
+            font.family: style.fontFamily
             font.pixelSize: introSlide.baseFontSize
             anchors { bottom: parent.bottom; horizontalCenter: parent.horizontalCenter }
             text: "<a href=\"" + presentation.url + "\">" + presentation.url + "</a>";

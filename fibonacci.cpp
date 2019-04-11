@@ -1,6 +1,5 @@
+#include <QtCore>
 #include <QtWidgets>
-
-#include "qcoroutine.h"
 
 auto nextNumberGenerator() -> QGenerator<decltype(0u)>
 {
@@ -20,10 +19,8 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     QWidget container;
     container.setLayout(new QVBoxLayout);
-
     auto label = new QLabel;
     label->setFont(QFont(qApp->font().family(), 100));
-
     auto nextButton = new QPushButton("NEXT!");
 
     auto write = [number = nextNumberGenerator(), label]() mutable {
@@ -31,12 +28,10 @@ int main(int argc, char **argv)
         label->setText(QString::fromLatin1("Current: %1").arg(*number));
     };
     write();
-
     QObject::connect(nextButton, &QPushButton::clicked, [&write] { write(); });
 
     container.layout()->addWidget(label);
     container.layout()->addWidget(nextButton);
-
     container.show();
     return app.exec();
 }

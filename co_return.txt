@@ -1,6 +1,0 @@
-Comienzo
-Obtenemos la coroutina
-Haciendo una tarea costosa
-Respuesta asíncrona: olakease
-...
-Ok, intentémoslo de nuevo: olakease
