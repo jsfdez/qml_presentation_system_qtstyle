@@ -1,11 +1,6 @@
 import QtQuick 2.13
-import QtQuick.Controls 2.13
 
-ApplicationWindow {
-    visible: true
-
-    title: Qt.application.name
-
+Item {
     Style { id: style }
 
     SlideDeck {

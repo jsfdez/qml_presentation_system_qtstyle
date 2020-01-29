@@ -2,36 +2,39 @@
 #include <QtCore/qfile.h>
 #include <QtCore/qlocale.h>
 #include <QtCore/qstring.h>
-#include <QtGui/qguiapplication.h>
-#include <QtQml/qjsvalue.h>
 #include <QtQml/qqmlapplicationengine.h>
+#include <QtQuick/qquickview.h>
+#include <QtWidgets/qapplication.h>
+
+#include "NativeInterface.h"
+
+template<class OBJECT>
+QObject *singletonProvider(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
+{
+    Q_UNUSED(jsEngine);
+    return new OBJECT(qmlEngine);
+}
 
 int main(int argc, char **argv)
 {
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QLocale::setDefault(QLocale::English);
-    QGuiApplication app(argc, argv);
-    app.setApplicationName("<title>");
+    QApplication app(argc, argv);
+    app.setApplicationName("Qt for WebAssembly");
     app.setOrganizationName("jsfdez");
 
-    QQmlApplicationEngine engine;
+    qmlRegisterSingletonType<NativeInterface>("Presentation", 1, 0, "NativeInterface",
+                                              &singletonProvider<NativeInterface>);
+
+    QQuickView quickView;
+    quickView.setResizeMode(QQuickView::SizeRootObjectToView);
+    auto &engine = *quickView.engine();
     engine.addImportPath("qrc:///imports");
-
-    if (QFile::exists(":/imports/Qt.labs.presentation/qmldir"))
-        qDebug() << "File exists";
-
-    qmlRegisterSingletonType("Presentation", 1, 0, "Constants",
-                             [](QQmlEngine *engine, QJSEngine *scriptEngine)
-    {
-        Q_UNUSED(engine)
-        auto singleton = scriptEngine->newObject();
-
-        auto url = QStringLiteral("https://github.com/jsfdez/qpresentation/tree/%1").arg(BRANCH);
-
-        singleton.setProperty(QStringLiteral("title"), qGuiApp->applicationName());
-        singleton.setProperty(QStringLiteral("url"), url);
-        return singleton;
-    });
-    engine.load(QUrl("qrc:///qml/main.qml"));
+    quickView.setSource(QUrl("qrc:///qml/main.qml"));
+    if (app.arguments().contains("-fullscreen"))
+        quickView.showFullScreen();
+    else
+        quickView.show();
     return app.exec();
 }

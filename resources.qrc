@@ -3,6 +3,13 @@
         <file>SlideDeck.qml</file>
         <file>Style.qml</file>
         <file>main.qml</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>OpenSansEmoji.ttf</file>
         <file>qtquickcontrols2.conf</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>build_with_qt.png</file>
+        <file>qt.png</file>
     </qresource>
 </RCC>
