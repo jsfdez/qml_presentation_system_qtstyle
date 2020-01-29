@@ -1,61 +1,48 @@
-import QtQuick 2.8
-import QtQuick.Shapes 1.0
+import Presentation 1.0
 import Qt.labs.presentation 1.0
+import QtQuick 2.13
+import QtQuick.Controls 2.13
 
 Presentation {
     id: presentation
 
-    property string title: "<no title>"
-    property string url: "https://github.com/jsfdez/qpresentation/tree/<branch>"
-    QtStyle { id: style }
-    fontFamily: style.fontFamily
-    codeFontFamily: style.codeFontFamily
+    anchors.fill: parent
 
     SlideCounter {
         visible: presentation.currentSlide != 0
         anchors {  left: introSlide.left; right: introSlide.right }
-        color: style.gray
 
-        Text {
+        Label {
             font.family: parent.font.family
             font.pixelSize: parent.font.pixelSize
-            color: style.gray
             anchors { baseline: parent.baseline; horizontalCenter: parent.horizontalCenter }
-            text: new Date().toDateString() + " - Jesús Fernández"
+            text: "%1 - Jesús Fernández".arg(new Date().toLocaleDateString(Qt.locale()))
         }
     }
 
     Clock {
         anchors {  left: undefined; right: introSlide.right }
-        color: style.gray
     }
 
     Slide {
         id: introSlide
-        Text {
+        Label {
             anchors.fill: parent
+            textFormat: Text.PlainText
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: presentation.title
-            font.family: style.fontFamily
+            text: Constants.title
             font.pixelSize: introSlide.baseFontSize * 2
         }
 
-        Text {
+        Label {
             text: "Jesús Fernández"
             anchors.verticalCenter: parent.verticalCenter
-            font.family: style.fontFamily
             font.pixelSize: introSlide.baseFontSize
         }
 
-        Text {
-            property var months: ["January", "February", "March", "April", "May", "June", "July",
-                "August", "September", "October", "November", "December"]
-            property string year: new Date().getFullYear()
-            property string month: months[new Date().getMonth()]
-            text: month + ", " + year
-            color: style.gray
+        Label {
+            text: new Date().toLocaleDateString(Qt.locale())
             anchors.bottom: parent.bottom
-            font.family: style.fontFamily
             font.pixelSize: introSlide.baseFontSize
         }
     }
@@ -71,11 +58,15 @@ Presentation {
     Slide {
         title: "Intro: Jesús Fernández"
         content: [
-            "Senior Software Engineer @ The Qt Company",
-            "@Qt Project:",
-            " Maintainer of:",
-            "  Qt Network Auth (since 5.8)",
-            "  Qt WebGL Streaming (since 5.10)",
+            "Current:",
+            " Technical Lead @ Pix4D",
+            " @Qt Project:",
+            "  Maintainer of:",
+            "   Qt Http Server (not merged)",
+            "   Qt Network Auth (since 5.8)",
+            "   Qt WebGL Streaming (since 5.10)",
+            "Previous:",
+            " The Qt Company, Gameloft, HP, Panda Security"
         ]
     }
 
@@ -84,13 +75,13 @@ Presentation {
         content: [
             "IRC 💬 jefernan @ #qt-labs (freenode)",
             "Twitter 🐦 @jsfdez",
-            "E-Mail 📬 jesus.fernandez@qt.io",
+            "E-Mail 📧 jesus.fernandez@qt.io",
         ]
-        Text {
-            font.family: style.fontFamily
+
+        Label {
             font.pixelSize: introSlide.baseFontSize
             anchors { bottom: parent.bottom; horizontalCenter: parent.horizontalCenter }
-            text: "<a href=\"" + presentation.url + "\">" + presentation.url + "</a>";
+            text: "<a href=\"%1\">%1</a>".arg(Constants.url)
         }
     }
 }

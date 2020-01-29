@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>imports/Qt/labs/presentation/Clock.qml</file>
+        <file>imports/Qt/labs/presentation/CodeSlide.qml</file>
+        <file>imports/Qt/labs/presentation/Presentation.qml</file>
+        <file>imports/Qt/labs/presentation/Slide.qml</file>
+        <file>imports/Qt/labs/presentation/SlideCounter.qml</file>
+        <file>imports/Qt/labs/presentation/qmldir</file>
+    </qresource>
+</RCC>
