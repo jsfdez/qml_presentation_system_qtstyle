@@ -79,7 +79,7 @@ Presentation {
         ]
 
         Label {
-            font.pixelSize: introSlide.baseFontSize
+            font.pixelSize: introSlide.baseFontSize / 2
             anchors { bottom: parent.bottom; horizontalCenter: parent.horizontalCenter }
             text: "<a href=\"%1\">%1</a>".arg(Constants.url)
         }

@@ -25,9 +25,11 @@ int main(int argc, char **argv)
     {
         Q_UNUSED(engine)
         auto singleton = scriptEngine->newObject();
+
+        auto url = QStringLiteral("https://github.com/jsfdez/qpresentation/tree/%1").arg(BRANCH);
+
         singleton.setProperty(QStringLiteral("title"), qGuiApp->applicationName());
-        singleton.setProperty(QStringLiteral("url"),
-                              "https://github.com/jsfdez/qpresentation/tree/<branch>");
+        singleton.setProperty(QStringLiteral("url"), url);
         return singleton;
     });
     engine.load(QUrl("qrc:///qml/main.qml"));
